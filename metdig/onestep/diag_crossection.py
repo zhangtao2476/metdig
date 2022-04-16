@@ -199,13 +199,14 @@ def wind_theta_w(data_source='cassandra', data_name='ecmwf', init_time=None, fho
     #                         var_name='vvel', levels=levels, extent=map_extent)
     # spfh = get_model_3D_grid(data_source=data_source, init_time=init_time, fhour=fhour, data_name=data_name,
     #                         var_name='spfh', levels=levels, extent=map_extent)
+    print("1")
     psfc = get_model_grid(data_source=data_source, init_time=init_time, fhour=fhour, data_name=data_name,
                           var_name='psfc', extent=map_extent)
-
+    print("2")
     # w = mdgcal.vertical_velocity(vvel, tmp, spfh)
 
     w=read_w3d(data_source=data_source, init_time=init_time, fhour=fhour, data_name=data_name, levels=levels, extent=map_extent)
-
+    print("3")
     # +form 3D psfc
     _, psfc_bdcst = xr.broadcast(tmp, psfc.squeeze())
     psfc_bdcst = psfc_bdcst.where(psfc_bdcst > -10000, drop=True)  # 去除小于-10000
@@ -317,6 +318,7 @@ def time_wind_qcld_qsn_tmp(data_source='cassandra', data_name='cma_gfs', init_ti
                              data_name=data_name, var_name='tmp', levels=levels, extent=mean_area)
 
     if(mean_area == None):
+        help(u)
         u = u.interp(lon=points['lon'], lat=points['lat'])
         v = v.interp(lon=points['lon'], lat=points['lat'])
         qsn = qsn.interp(lon=points['lon'], lat=points['lat'])
